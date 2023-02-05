@@ -6,7 +6,7 @@ class LibnkuSpider(scrapy.Spider):
     name = 'libNKU'
     allowed_domains = ['nankai.edu.cn']
     # 更改此处cls=的值来对不同目录进行爬取，注意要同时修改pipeline.py中的json文件名
-    start_urls = ['https://opac.nankai.edu.cn/browse/cls_browsing_book.php?s_doctype=all&cls=TP31&page=1']
+    start_urls = ['https://opac.nankai.edu.cn/browse/cls_browsing_book.php?s_doctype=all&cls=TP30&page=1']
     pageCnt = 0
 
     def parse(self, response):
@@ -69,7 +69,32 @@ class LibnkuSpider(scrapy.Spider):
                     item['subject'] += str(node.xpath('./dd/a/text()').extract_first()) 
                 if(len(node.xpath('./dd/text()'))!=0):
                     item['subject'] += node.xpath('./dd/text()').extract_first()
+
+        related_url = response.xpath('//*[@id="tabs2"]/ul/li[5]/a/@href').extract_first()
+        if related_url[related_url.index("call_no=")+8: ]:  # 若存在相关书籍url
+            #print("not null")
+            related_url = response.urljoin(response.xpath('//*[@id="tabs2"]/ul/li[5]/a/@href').extract_first())
+            #print(related_url[related_url.index("call_no=")+8:])
+            #print(related_url)
+            yield scrapy.Request(
+                    url=related_url,
+                    callback=self.relatedParse,
+                    meta={'item': item}
+                )
         yield item
-        
+
+
+    def relatedParse(self, response):
+        item = response.meta['item']
+        #print("here")
+        node_list=response.xpath('//tr[@class="whitetext"]')
+
+        item['relRef1'] = response.urljoin(node_list[0].xpath('./td[1]/a/@href').extract_first())
+        item['relRef2'] = response.urljoin(node_list[1].xpath('./td[1]/a/@href').extract_first())
+        # item['relRef1'] = response.urljoin(response.xpath('/html/body/table/tbody/tr[1]/td[1]/a/@href').extract_first())
+        # item['relRef2'] = response.urljoin(response.xpath('/html/body/table/tbody/tr[2]/td[1]/a/@href').extract_first())
+        #print(item['relRef1'])
+        yield item
+
 
 

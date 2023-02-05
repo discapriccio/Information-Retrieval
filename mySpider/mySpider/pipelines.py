@@ -11,7 +11,7 @@ import json
 class MyspiderPipeline:
 
     def __init__(self):
-        self.file = open('TP31.json','w')
+        self.file = open('TP30.json','w',encoding='utf-8')
 
     def process_item(self, item, spider):
         item = dict(item)

@@ -13,4 +13,6 @@ class MyspiderItem(scrapy.Item):
     press = scrapy.Field()  #出版发行项
     ISBNAndPrice = scrapy.Field()  #ISBN及定价
     subject = scrapy.Field()  #学科主题
+    relRef1 = scrapy.Field()  # 相关链接1
+    relRef2 = scrapy.Field()  # 相关链接2
     pass
