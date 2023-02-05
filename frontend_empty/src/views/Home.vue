@@ -3,7 +3,6 @@
 		<sample-nav></sample-nav>
 		<logo></logo>
 		<search-box></search-box>
-		<footer></footer>
 	</div>
 </template>
 

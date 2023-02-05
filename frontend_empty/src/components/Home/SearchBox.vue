@@ -10,6 +10,11 @@
 				placeholder="Search..."
 				v-model="searchQuery"
 			/>
+			<router-link :to="{ path: '/search', query: { q: searchQuery, p: 1 } }">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#icon-sousuo"></use>
+				</svg>
+			</router-link>
 			
 		</div>
 		<!-- {{searchedsuggests}} -->
@@ -30,7 +35,76 @@
 </template>
 
 <script>
+import {
+	onMounted,
+	onUpdated,
+	computed,
+	reactive,
+	ref,
+	watch,
+	watchEffect,
+} from "vue";
+import { useRouter } from "vue-router";
 
+
+export default {
+	name: "search-box",
+	data() {
+		return {
+			show: false,
+			isMouseOnSerchBox: false,
+		};
+	},
+	methods: {
+		focusShow() {
+			this.show = true;
+		},
+		blurShow() {
+			// 这个if重点，没这个会造成建议选项无法点击，一点击就触发input焦点消失，然后这个建议的下拉选择项也跟着消失
+			// 应该是如果点击区域不在search-box中才隐藏-->这里通过@mouseenter这个属性来判断
+			if (!this.isMouseOnSerchBox) {
+				this.show = false;
+			} else {
+				// 马上重置为false
+				this.isMouseOnSerchBox = false;
+			}
+		},
+	},
+	components: {},
+	setup(props) {
+		const router = useRouter();
+		const searchQuery = ref("");
+		// 测试数据-->历史记录+搜索建议
+		let historyList = JSON.parse(localStorage.getItem("historyList")) || [];
+
+		let searchedsuggests = reactive({
+			list: [],
+		});
+		
+
+		function enterToSearch() {
+			console.log("触发回车搜索事件......");
+			store.commit("SetSearchValue", searchQuery.value);
+			router.push({ path: "/search", query: { q: searchQuery.value, p: 1 } });
+		}
+		function checkToSearch(value) {
+			// 从建议的选项中跳转
+			console.log(value);
+			store.commit("SetSearchValue", value);
+			router.push({ path: "/search", query: { q: value, p: 1 } });
+		}
+		onUpdated(() => {
+			console.log(searchQuery);
+		});
+		onMounted(() => {});
+		return {
+			searchedsuggests,
+			searchQuery,
+			enterToSearch,
+			checkToSearch,
+		};
+	},
+};
 </script>
 
 <style lang="less" scoped>

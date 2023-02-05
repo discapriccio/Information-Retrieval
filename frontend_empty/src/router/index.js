@@ -6,7 +6,12 @@ const routes = [
       path: '/',
       name: 'Home',
       component: Home
-    }
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('../views/ResultList.vue')
+    },
 ]
 
 const router = createRouter({
