@@ -107,29 +107,29 @@ export default {
 				});
 			}
 			let suggests = [];
-			// 如果历史记录大于n条就直接返回，否则就拼接请求的搜索建议
-			if (su.length < 8) {
-				// 获取搜索建议
-				console.log("小于8条......");
-				let res = await getSearchSuggest(searchQuery.value);
-				console.log("res: ", res.data);
-				//拼接并去前8条,同时区分是否是历史记录
-				for (let i of su) {
-					suggests.push({ isHistory: true, value: i });
-				}
-				console.log(8 - su.length);
-				for (let j = 0; j < 8 - su.length; j++) {
-					if (res.data.length <= j) {
-						break;
-					}
-					suggests.push({ isHistory: false, value: res.data[j] });
-				}
-			} else {
-				for (let i = 0; i < 8; i++) {
-					suggests.push({ isHistory: true, value: su[i] });
-				}
-			}
-			console.log("suggests: ", suggests);
+			// // 如果历史记录大于n条就直接返回，否则就拼接请求的搜索建议
+			// if (su.length < 8) {
+			// 	// 获取搜索建议
+			// 	console.log("小于8条......");
+			// 	let res = await getSearchSuggest(searchQuery.value);
+			// 	console.log("res: ", res.data);
+			// 	//拼接并去前8条,同时区分是否是历史记录
+			// 	for (let i of su) {
+			// 		suggests.push({ isHistory: true, value: i });
+			// 	}
+			// 	console.log(8 - su.length);
+			// 	for (let j = 0; j < 8 - su.length; j++) {
+			// 		if (res.data.length <= j) {
+			// 			break;
+			// 		}
+			// 		suggests.push({ isHistory: false, value: res.data[j] });
+			// 	}
+			// } else {
+			// 	for (let i = 0; i < 8; i++) {
+			// 		suggests.push({ isHistory: true, value: su[i] });
+			// 	}
+			// }
+			// console.log("suggests: ", suggests);
 			searchedsuggests.list = suggests;
 		});
 

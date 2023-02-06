@@ -1,6 +1,5 @@
 <template>
 	<div class="list">
-		<h1>list</h1>
 		<el-empty
 			v-if="SearchResult.totalNums == 0"
 			description="没有相关内容，试试其他关键词吧~"
@@ -17,11 +16,12 @@
 			>
 				<a
 					class="title"
-					:href="item.page_url"
+					:href="item.link"
 					target="_blank"
-					v-html="item.title"
+					v-html="item.name"
 				></a>
-				<div class="content" v-html="item.content"></div>
+				<div class="content" v-html="item.author "></div>
+				<div class="content" v-html="item.score "></div>
 			</div>
 		</div>
 	</div>

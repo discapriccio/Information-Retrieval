@@ -18,7 +18,7 @@ export function getSearchResult(q, p) {
 }
 //根据输入的部分文本获取搜索建议
 export function getSearchSuggest(someText) {
-  return axios.get(`${baseUrl}/search/suggest?input=${someText}`)
+  //return axios.get(`${baseUrl}/search/suggest?input=${someText}`)
 }
 //登录
 export function login(email, password) {

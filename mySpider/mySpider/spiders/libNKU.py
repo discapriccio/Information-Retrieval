@@ -6,7 +6,7 @@ class LibnkuSpider(scrapy.Spider):
     name = 'libNKU'
     allowed_domains = ['nankai.edu.cn']
     # 更改此处cls=的值来对不同目录进行爬取，注意要同时修改pipeline.py中的json文件名
-    start_urls = ['https://opac.nankai.edu.cn/browse/cls_browsing_book.php?s_doctype=all&cls=TP30&page=1']
+    start_urls = ['https://opac.nankai.edu.cn/browse/cls_browsing_book.php?s_doctype=all&cls=TP31&page=1']
     pageCnt = 0
 
     def parse(self, response):
